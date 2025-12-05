@@ -18,6 +18,7 @@ const routes = [
   {
     path: '/coaches/:id',
     component: CoachDetails,
+    props: true,
     children: [
       // child paths must not start with / so they become relative to the parent
       { path: 'contact', component: ContactCoach },
