@@ -49,6 +49,7 @@
 
 <script>
 export default {
+    emits: ['save-data'],
     data() {
         return {
             firstName: '',
@@ -59,7 +60,8 @@ export default {
         };
     },
     methods: {
-      submitForm() {
+        submitForm() {
+        alert("Submitting form...");
             // Handle form submission logic here
         const formData = {
             first: this.firstName,
@@ -69,7 +71,8 @@ export default {
             areas: this.areas,
         };
 
-        console.log('Form Data Submitted:', formData);
+            // console.log('Form Data Submitted:', formData);
+        this.$emit('save-data', formData);
       }  
     },
 }

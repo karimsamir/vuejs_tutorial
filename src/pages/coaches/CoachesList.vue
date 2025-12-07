@@ -7,8 +7,7 @@
 
             <div class="controls">
                 <base-button mode="outline">Refresh</base-button>
-                <base-button to="/register" link>Register as a Coach</base-button>
-                <router-link to="/register">Register as a Coach</router-link>
+                <base-button to="/register" link v-if="!isCoach">Register as a Coach</base-button>
             </div>
             <ul v-if="hasCoaches">
                 <!-- <li v-for="coach in filteredCoaches" :key="coach.id">
@@ -62,11 +61,16 @@ export default {
                     return true;
                 }
                 return false;
-            }); 
+            });
         },
         hasCoaches() {
             return this.$store.getters['coaches/hasCoaches'];
         },
+        isCoach() {
+            console.log("Checking if user is a coach...==" + this.$store.getters['coaches/isCoach']);
+            return this.$store.getters['coaches/isCoach'];
+        },
+
 
     },
     methods: {
