@@ -67,7 +67,6 @@ export default {
             return this.$store.getters['coaches/hasCoaches'];
         },
         isCoach() {
-            console.log("Checking if user is a coach...==" + this.$store.getters['coaches/isCoach']);
             return this.$store.getters['coaches/isCoach'];
         },
 
