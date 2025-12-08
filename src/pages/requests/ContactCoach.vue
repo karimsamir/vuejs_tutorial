@@ -41,6 +41,12 @@ export default {
 			};
 			console.log('Contact Data Submitted:', contactData);
 			// You can dispatch an action or make an API call here
+			this.$store.dispatch('requests/contactCoach', {
+				coachId: this.$route.params.id,
+				...contactData,
+			});
+
+			this.$router.replace('/coaches');
 		},
 		validateForm() {
 			this.formIsValid = true;
