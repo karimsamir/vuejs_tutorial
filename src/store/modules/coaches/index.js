@@ -5,7 +5,8 @@ import getters from './getters.js';
 export default {
   namespaced: true,
   state() {
-      return {
+    return {
+        lastFetch: null,
         coaches: [
           {
             id: 'c1',
