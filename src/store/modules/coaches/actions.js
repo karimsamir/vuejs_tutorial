@@ -43,13 +43,13 @@ export default {
     // if (!payload.forceRefresh && !context.getters.shouldUpdate) {
     //   return;
     // }
-    const response =  await fetch(
+    const response = await fetch(
       // 'https://vue-http-demo-6f7c3-default-rtdb.firebaseio.com/coaches.json'
       `https://vue-coach-83b2b-default-rtdb.firebaseio.com/coaches.json`
     );
+      const data = await response.json();
 
     if (response.ok) {
-      const data = await response.json();
       const coaches = [];
       for (const key in data) {
         const coach = {
@@ -65,6 +65,9 @@ export default {
       console.log(coaches);
       context.commit('setCoaches', coaches);
       context.commit('setFetchTimestamp');
+    }
+    else {
+      throw new Error(data.message || 'Failed to fetch!');
     }
       // .then((response) => {
       //   if (!response.ok) {
