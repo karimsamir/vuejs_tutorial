@@ -39,4 +39,57 @@ export default {
     //
     // context.commit('registerCoach', {...coachData, id: userId});
   },
+  async loadCoaches(context) {
+    // if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+    //   return;
+    // }
+    const response =  await fetch(
+      // 'https://vue-http-demo-6f7c3-default-rtdb.firebaseio.com/coaches.json'
+      `https://vue-coach-83b2b-default-rtdb.firebaseio.com/coaches.json`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      const coaches = [];
+      for (const key in data) {
+        const coach = {
+          id: key,
+          firstName: data[key].firstName,
+          lastName: data[key].lastName,
+          description: data[key].description,
+          hourlyRate: data[key].hourlyRate,
+          areas: data[key].areas,
+        };
+        coaches.push(coach);
+      }
+      console.log(coaches);
+      context.commit('setCoaches', coaches);
+      context.commit('setFetchTimestamp');
+    }
+      // .then((response) => {
+      //   if (!response.ok) {
+      //     throw new Error('Failed to fetch!');
+      //   }
+      //   return response.json();
+      // })
+      // .then((data) => {
+      //   const coaches = [];
+      //   for (const key in data) {
+      //     const coach = {
+      //       id: key,
+      //       firstName: data[key].firstName,
+      //       lastName: data[key].lastName,
+      //       description: data[key].description,
+      //       hourlyRate: data[key].hourlyRate,
+      //       areas: data[key].areas,
+      //     };
+      //     coaches.push(coach);
+      //   }
+      //   context.commit('setCoaches', coaches);
+      //   context.commit('setFetchTimestamp');
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      // });
+  }
 };
