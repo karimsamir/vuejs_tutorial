@@ -1,23 +1,26 @@
 <template>
-	<section>
-		<h1>Contact Coach</h1>
-	</section>
-	<form action="" @submit.prevent="submitForm">
-		<div class="form-control">
-			<label for="email">Your Email</label>
-			<input type="email" id="email" v-model.trim="email" />
-		</div>
-		<div class="form-control">
-			<label for="message">Your Message</label>
-			<textarea id="message" rows="5" v-model.trim="message"></textarea>
-		</div>
-		<p class="errors" v-if="!formIsValid">
-			Please enter a valid email address and message.
-		</p>
-		<div class="actions">
-			<base-button type="submit">Send Message</base-button>
-		</div>
-	</form>
+	<div>
+		<section>
+			<h1>Contact Coach</h1>
+		</section>
+		<form action="" @submit.prevent="submitForm">
+			<div class="form-control">
+				<label for="email">Your Email</label>
+				<input type="email" id="email" v-model.trim="email" />
+			</div>
+			<div class="form-control">
+				<label for="message">Your Message</label>
+				<textarea id="message" rows="5" v-model.trim="message"></textarea>
+			</div>
+			<p class="errors" v-if="!formIsValid">
+				Please enter a valid email address and message.
+			</p>
+			<div class="actions">
+				<base-button type="submit">Send Message</base-button>
+			</div>
+		</form>
+	</div>
+
 </template>
 
 <script>

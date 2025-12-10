@@ -1,40 +1,43 @@
 <template>
-    <base-dialog :show="!!error" title="An Error Occurred!" @close="handleError">
-        <p>
-            {{ error }}
-        </p>
-    </base-dialog>
-    <section>
-        <coach-filter @change-filter="setFilter"></coach-filter>
-    </section>
-    <section>
-        <base-card>
+    <div>
+        <base-dialog :show="!!error" title="An Error Occurred!" @close="handleError">
+            <p>
+                {{ error }}
+            </p>
+        </base-dialog>
+        <section>
+            <coach-filter @change-filter="setFilter"></coach-filter>
+        </section>
+        <section>
+            <base-card>
 
-            <div class="controls">
-                <base-button mode="outline" @click="loadCoaches(true)">Refresh</base-button>
-                <base-button to="/register" link v-if="!isCoach && !isLoading">
-                    Register as a Coach
-                </base-button>
-            </div>
-            <div v-if="isLoading">
-                <base-spinner></base-spinner>
-            </div>
-            <ul v-else-if="hasCoaches">
-                <!-- <li v-for="coach in filteredCoaches" :key="coach.id">
+                <div class="controls">
+                    <base-button mode="outline" @click="loadCoaches(true)">Refresh</base-button>
+                    <base-button to="/register" link v-if="!isCoach && !isLoading">
+                        Register as a Coach
+                    </base-button>
+                </div>
+                <div v-if="isLoading">
+                    <base-spinner></base-spinner>
+                </div>
+                <ul v-else-if="hasCoaches">
+                    <!-- <li v-for="coach in filteredCoaches" :key="coach.id">
                 <h2>{{ coach.firstName }} {{ coach.lastName }}</h2>
                 <p>{{ coach.description }}</p>sss
                 <p>Hourly Rate: ${{ coach.hourlyRate }}</p>
                 <router-link :to="`/coaches/${coach.id}`">View Details</router-link>
             </li> -->
-                <coach-item v-for="coach in filteredCoaches" :key="coach.id" :id="coach.id"
-                    :first-name="coach.firstName" :last-name="coach.lastName" :description="coach.description"
-                    :rate="coach.hourlyRate" :areas="coach.areas">
-                </coach-item>
+                    <coach-item v-for="coach in filteredCoaches" :key="coach.id" :id="coach.id"
+                        :first-name="coach.firstName" :last-name="coach.lastName" :description="coach.description"
+                        :rate="coach.hourlyRate" :areas="coach.areas">
+                    </coach-item>
 
-            </ul>
-            <h3 v-else>No coaches found. Maybe you should be the first one!</h3>
-        </base-card>
-    </section>
+                </ul>
+                <h3 v-else>No coaches found. Maybe you should be the first one!</h3>
+            </base-card>
+        </section>
+    </div>
+
 </template>
 
 <script>
@@ -98,7 +101,7 @@ export default {
             this.isLoading = true;
 
             try {
-                await this.$store.dispatch('coaches/loadCoaches', { forceRefresh: refresh});
+                await this.$store.dispatch('coaches/loadCoaches', { forceRefresh: refresh });
 
             }
             catch (error) {
