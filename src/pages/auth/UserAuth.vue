@@ -1,28 +1,39 @@
 <template>
-    <base-card>
-        <form action="" @submit.prevent="submitForm">
-            <div class="form-control">
-                <label for="email">Email</label>
-                <input type="email" id="email" v-model.trim="email" />
-            </div>
-            <div class="form-control">
-                <label for="password">Password</label>
-                <input type="password" id="password" v-model.trim="password" />
-            </div>
-            <p v-if="!formIsValid">
-                Please enter a valid email address and password (at least 6 characters).
-            </p>
-            <div class="form-actions">
-                <base-button>{{ submitButtonCaption }}</base-button>
-                <base-button type="button" mode="flat" @click="switchAuthMode">
-                {{ switchModeButtonCaption }}
-            </base-button>
-            </div>
-        </form>
-    </base-card>
+    <div>
+        <base-dialog :show="!!error" title="An error occurred..." @close="handleError">
+            {{ error }}
+        </base-dialog>
+
+        <base-dialog :show="isLoading" fixed title="Authenticating...">
+            <base-spinner></base-spinner>
+        </base-dialog>
+
+        <base-card>
+            <form action="" @submit.prevent="submitForm">
+                <div class="form-control">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" v-model.trim="email" />
+                </div>
+                <div class="form-control">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" v-model.trim="password" />
+                </div>
+                <p v-if="!formIsValid">
+                    Please enter a valid email address and password (at least 6 characters).
+                </p>
+                <div class="form-actions">
+                    <base-button>{{ submitButtonCaption }}</base-button>
+                    <base-button type="button" mode="flat" @click="switchAuthMode">
+                        {{ switchModeButtonCaption }}
+                    </base-button>
+                </div>
+            </form>
+        </base-card>
+    </div>
 </template>
 
 <script>
+
 export default {
     data() {
         return {
@@ -30,25 +41,40 @@ export default {
             password: '',
             formIsValid: true,
             mode: 'login',
+            isLoading: false,
+            error: null,
         };
     },
     methods: {
-        submitForm() {
+        async submitForm() {
             if (!this.validateForm()) {
                 return;
             }
+            this.isLoading = true;
+
             const authData = {
                 email: this.email,
                 password: this.password,
             };
             console.log('Auth Data Submitted:', authData);
             // You can dispatch an action or make an API call here
-            if (this.mode === 'login') {
-                this.$store.dispatch('login', authData);
-            } else {
-                this.$store.dispatch('signup', authData);
+            try {
+                if (this.mode === 'login') {
+                    await this.$store.dispatch('login', authData);
+                }
+                else {
+                    await this.$store.dispatch('signup', authData);
+                }
+
             }
-            this.$router.replace('/coaches');
+            catch (error) {
+
+                this.error = error.message || 'Failed to authenticate.';
+            }
+
+            this.isLoading = false;
+
+            // this.$router.replace('/coaches');
         },
         validateForm() {
             this.formIsValid = true;
@@ -59,6 +85,9 @@ export default {
         },
         switchAuthMode() {
             this.mode = this.mode === 'login' ? 'signup' : 'login';
+        },
+        handleError() {
+            this.error = null;
         },
     },
     computed: {
