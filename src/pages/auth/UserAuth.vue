@@ -44,9 +44,9 @@ export default {
             console.log('Auth Data Submitted:', authData);
             // You can dispatch an action or make an API call here
             if (this.mode === 'login') {
-                this.$store.dispatch('auth/login', authData);
+                this.$store.dispatch('login', authData);
             } else {
-                this.$store.dispatch('auth/signup', authData);
+                this.$store.dispatch('signup', authData);
             }
             this.$router.replace('/coaches');
         },

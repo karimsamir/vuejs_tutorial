@@ -1,60 +1,35 @@
 export default {
-  async contactCoach(context, payload) {
-    const coachId = payload.coachId;
-
-    const newRequest = {
-      userEmail: payload.email,
-      message: payload.message,
-    };
+  async signup(context, payload) {
+    // signup logic
     const response = await fetch(
-      `https://vue-coach-83b2b-default-rtdb.firebaseio.com/requests/${coachId}.json`,
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBqpt2b9FzsTBZKlhhY0UcaXlR_tzeerYo',
       {
         method: 'POST',
-        body: JSON.stringify(newRequest),
+        body: JSON.stringify({
+          email: payload.email,
+          password: payload.password,
+          returnSecureToken: true,
+        }),
       }
     );
+
     const responseData = await response.json();
 
     if (!response.ok) {
-      // error ...
-      const error = new Error(
-        responseData.message || 'Failed to send request.'
-      );
-      throw error;
+      console.warn(responseData);
+
+      const errorMessage = responseData.message || 'Failed to authenticate.';
+      throw new Error(errorMessage);
     }
 
-    newRequest.id = responseData.name;
-    newRequest.coachId = coachId;
-
-    context.commit('addRequest', newRequest);
+    console.log(responseData);
+    context.commit('setUser', {
+      token: responseData.idToken,
+      userId: responseData.localId,
+      tokenExpiration: responseData.expiresIn,
+    });
   },
-
-  async fetchRequests(context) {
-    const coachId = context.rootGetters.userId;
-    const response = await fetch(
-      `https://vue-coach-83b2b-default-rtdb.firebaseio.com/requests/${coachId}.json`
-    );
-    const responseData = await response.json();
-
-    if (!response.ok) {
-      // error ...
-      const error = new Error(
-        responseData.message || 'Failed to fetch requests.'
-      );
-      throw error;
-    }
-
-    const requests = [];
-    for (const key in responseData) {
-      const request = {
-        id: key,
-        coachId: coachId,
-        userEmail: responseData[key].userEmail,
-        message: responseData[key].message,
-      };
-      requests.push(request);
-    }
-
-    context.commit('setRequests', requests);
-  },
+  // login(context, payload) {
+  //   // login logic
+  // },
 };
