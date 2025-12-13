@@ -69,7 +69,8 @@ export default {
           await this.$store.dispatch('signup', authData);
         }
 
-        const redirectUrl = '/' + this.$route.query.redirect || '/coaches';
+        const redirectUrl = '/' + (this.$route.query.redirect || 'coaches');
+        console.log('Redirect URL:', redirectUrl);
         this.$router.replace(redirectUrl);
       } catch (error) {
         this.error = error.message || 'Failed to authenticate.';
