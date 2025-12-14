@@ -33,14 +33,15 @@ export default {
     const coachId = context.rootGetters.userId;
     const token = context.rootGetters.token;
     const response = await fetch(
-      `https://vue-coach-83b2b-default-rtdb.firebaseio.com/requests/${coachId}.json?token=${token}`
+      `https://vue-coach-83b2b-default-rtdb.firebaseio.com/requests/${coachId}.json?auth=${token}`
     );
     const responseData = await response.json();
 
     if (!response.ok) {
       // error ...
+      console.log(responseData);
       const error = new Error(
-        responseData.message || 'Failed to fetch requests.'
+        responseData.error || 'Failed to fetch requests.'
       );
       throw error;
     }
