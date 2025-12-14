@@ -1,38 +1,20 @@
-import { defineAsyncComponent } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 // route components
 import CoachesList from './pages/coaches/CoachesList.vue';
-// import CoachRegistration from './pages/coaches/CoachRegistration.vue';
-// import ContactCoach from './pages/requests/ContactCoach.vue';
-// import RequestReceived from './pages/requests/RequestReceived.vue';
 import store from './store/index.js';
-// import NotFound from './pages/NotFound.vue';
-// import UserAuth from './pages/auth/UserAuth.vue';
 
-// import CoachDetails from './pages/coaches/CoachDetails.vue';
-const CoachDetails = defineAsyncComponent(() =>
-  import('./pages/coaches/CoachDetails.vue')
-);
+const CoachDetails = () => import('./pages/coaches/CoachDetails.vue');
 
-// import CoachRegistration from './pages/coaches/CoachRegistration.vue';
-const CoachRegistration = defineAsyncComponent(() =>
-  import('./pages/coaches/CoachRegistration.vue')
-);
+const CoachRegistration = () => import('./pages/coaches/CoachRegistration.vue');
 
-const ContactCoach = defineAsyncComponent(() =>
-  import('./pages/requests/ContactCoach.vue')
-);
+const ContactCoach = () => import('./pages/requests/ContactCoach.vue');
 
-const RequestReceived = defineAsyncComponent(() =>
-  import('./pages/requests/RequestReceived.vue')
-);
+const RequestReceived = () => import('./pages/requests/RequestReceived.vue');
 
-const UserAuth = defineAsyncComponent(() =>
-  import('./pages/auth/UserAuth.vue')
-);
+const UserAuth = () => import('./pages/auth/UserAuth.vue');
 
-const NotFound = defineAsyncComponent(() => import('./pages/NotFound.vue'));
+const NotFound = () => import('./pages/NotFound.vue');
 
 const routes = [
   { path: '/', redirect: '/coaches' },
